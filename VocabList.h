@@ -23,7 +23,7 @@ public:
 
     VocabList *SplitAt(int count);
 
-    VocabList *JoinLists(VocabList *toJoin);
+    void JoinLists(VocabList *toJoin);
 
 private:
     VocabWord *head;

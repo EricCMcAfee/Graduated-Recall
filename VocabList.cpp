@@ -80,18 +80,24 @@ VocabList *VocabList::SplitAt(int count)
     if (head != NULL)
     {
 
-        VocabWord *cursor = new VocabWord();
+        VocabWord *cursor = head;
         firstHalf->head = head;
-        for (int i = 0; i < count && cursor != nullptr; i++)
+        for (int i = 0; i < count - 1 && cursor != nullptr; i++)
         {
             cursor = cursor->next;
         }
         firstHalf->tail = cursor;
-        head = cursor;
+        head = cursor->next;
+        firstHalf->tail->next = nullptr;
     }
     return firstHalf;
 }
 
-VocabList *JoinLists(VocabList *toJoin)
+void VocabList::JoinLists(VocabList *toJoin)
 {
+    if (toJoin->head != nullptr)
+    {
+        this->tail->next = toJoin->head;
+        this->tail = toJoin->tail;
+    }
 }
