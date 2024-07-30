@@ -3,6 +3,11 @@
 
 using namespace std;
 
+VocabList::VocabList()
+{
+    head = nullptr;
+    tail = nullptr;
+}
 void VocabList::Print()
 {
     if (head != NULL)
@@ -30,6 +35,11 @@ int VocabList::Size()
     return size;
 }
 
+VocabWord *VocabList::GetHead()
+{
+    return head;
+}
+
 VocabWord *VocabList::InitWord(string english, string german)
 {
     VocabWord *word = new VocabWord();
@@ -50,6 +60,7 @@ void VocabList::Append(VocabWord *toAppend)
         tail->next = toAppend;
         toAppend->previous = tail;
         tail = toAppend;
+        tail->next = nullptr;
     }
 }
 void VocabList::Remove(VocabWord *toRemove)
@@ -97,7 +108,31 @@ void VocabList::JoinLists(VocabList *toJoin)
 {
     if (toJoin->head != nullptr)
     {
-        this->tail->next = toJoin->head;
-        this->tail = toJoin->tail;
+        if (this->head == nullptr)
+        {
+            head = toJoin->head;
+            tail = toJoin->tail;
+            tail->next = nullptr;
+        }
+        else
+        {
+            this->tail->next = toJoin->head;
+            this->tail = toJoin->tail;
+            this->tail->next = nullptr;
+        }
+        toJoin->head = nullptr;
+        toJoin->head = nullptr;
     }
+}
+
+void VocabList::CreateStudyList(VocabList *newWords, VocabList *weakWords, VocabList *strongWords)
+{
+
+    this->JoinLists(newWords);
+
+    VocabList *listcursor = weakWords->SplitAt(weakWords->Size() / 2);
+    this->JoinLists(listcursor);
+
+    listcursor = strongWords->SplitAt(strongWords->Size() / 4);
+    this->JoinLists(listcursor);
 }
