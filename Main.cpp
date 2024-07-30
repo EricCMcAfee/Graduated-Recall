@@ -30,7 +30,7 @@ void promptQuestion(VocabWord *word)
          << "German : ";
     cin >> userWait;
     cin.clear();
-    cout << word->German << endl;
+    cout << "Correct answer: " << word->German << endl;
     cout << "Please enter 1 if you missed it, 2 if it took you a moment, and 3 if you know it well...";
     int userConfidence;
     cin >> userConfidence;
