@@ -1,5 +1,8 @@
 #include <iostream>
 #include "VocabList.h"
+#include <fstream>
+#include <filesystem>
+#include <sstream>
 
 using namespace std;
 
@@ -60,6 +63,27 @@ void runTest(VocabList *studyList)
         promptQuestion(toPrompt);
     }
 }
+
+// function to read in csv data
+void readCSV(string filename, VocabList *list)
+{
+    ifstream file;
+    string path = string(filesystem::current_path().string()) + "\\" + "VocabLists" + "\\" + filename;
+    file.open("path");
+
+    string line = "";
+    string english;
+    string german;
+
+    while (getline(file, line))
+    {
+        stringstream string(line);
+        getline(string, english, ',');
+        getline(string, german, ',');
+        list->Append(list->InitWord(english, german));
+        line = "";
+    }
+}
 // helper function to build a simluated vocab list for testing
 void handDrawLists(VocabList *&newWords, VocabList *&weakWords, VocabList *&strongWords)
 {
@@ -88,24 +112,11 @@ int main()
 {
     // to be replaced with import functionality from excel
     handDrawLists(NEWWORDS, WEAKWORDS, STRONGWORDS);
+    readCSV("NEWWORDS.xlsx", NEWWORDS);
 
-    NEWWORDS->Print();
-    cout << endl;
-    WEAKWORDS->Print();
-    cout << endl;
-    STRONGWORDS->Print();
-    cout << endl;
-
-    STUDYLIST->CreateStudyList(NEWWORDS, WEAKWORDS, STRONGWORDS);
-    STUDYLIST->Print();
-    cout << endl;
-
-    runTest(STUDYLIST);
-
-    NEWWORDS->Print();
-    cout << endl;
-    WEAKWORDS->Print();
-    cout << endl;
-    STRONGWORDS->Print();
-    cout << endl;
+    
+    
+    
+    //STUDYLIST->CreateStudyList(NEWWORDS, WEAKWORDS, STRONGWORDS);
+    // runTest(STUDYLIST);
 }
