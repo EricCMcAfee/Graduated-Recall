@@ -1,21 +1,28 @@
 #include <iostream>
-#include "VocabList.h"
 #include <fstream>
-#include <filesystem>
 #include <sstream>
+#include <filesystem>
+#include "VocabList.h"
+#include "FileManagement.h"
 
 using namespace std;
 
-// global lists for imported words
-VocabList *NEWWORDS;
-VocabList *WEAKWORDS;
-VocabList *STRONGWORDS;
+// global list for imported words
+VocabList *NEWWORDS = new VocabList();
 
-// global list for clarity
+//global lists for previously studied and sorted words
+VocabList *WEAKWORDS = new VocabList();
+VocabList *MEDIUMWORDS = new VocabList();
+VocabList *STRONGWORDS = new VocabList();
+
+// list of words to study. populated by the studylist function. made global for clarity
 VocabList *STUDYLIST = new VocabList();
 
-// global int for storing grade throughout execution
-int GRADE = 0;
+// global ints to determine how many words will be pulled from each bucket. Will eventually be implemented to be configurable by user
+int NUMNEWWORDS = 10;
+int NUMWEAKWORDS = 6;
+int NUMMEDIUMWORDS = 3;
+int NUMSTRONGWORDS = 1;
 
 // function for prompting a question
 void promptQuestion(VocabWord *word)
@@ -40,10 +47,10 @@ void promptQuestion(VocabWord *word)
     switch (userConfidence)
     {
     case 1:
-        NEWWORDS->Append(word);
+        WEAKWORDS->Append(word);
         break;
     case 2:
-        WEAKWORDS->Append(word);
+        MEDIUMWORDS->Append(word);
         break;
     case 3:
         STRONGWORDS->Append(word);
@@ -52,7 +59,7 @@ void promptQuestion(VocabWord *word)
     cin.clear();
 }
 // function for running the quiz
-void runTest(VocabList *studyList)
+void runQuiz(VocabList *studyList)
 {
     VocabWord *cursor = studyList->GetHead();
     while (cursor != nullptr)
@@ -64,27 +71,6 @@ void runTest(VocabList *studyList)
     }
 }
 
-// function to read in csv data
-void readCSV(string filename, VocabList *list)
-{
-    ifstream file;
-    string path = string(filesystem::current_path().string()) + "\\" + "VocabLists" + "\\" + filename;
-    file.open("path");
-
-    string line = "";
-    string english;
-    string german;
-
-    while (getline(file, line))
-    {
-        stringstream string(line);
-        getline(string, english, ',');
-        getline(string, german, ',');
-        list->Append(list->InitWord(english, german));
-        line = "";
-    }
-}
-// helper function to build a simluated vocab list for testing
 void handDrawLists(VocabList *&newWords, VocabList *&weakWords, VocabList *&strongWords)
 {
 
@@ -110,13 +96,14 @@ void handDrawLists(VocabList *&newWords, VocabList *&weakWords, VocabList *&stro
 
 int main()
 {
-    // to be replaced with import functionality from excel
-    handDrawLists(NEWWORDS, WEAKWORDS, STRONGWORDS);
-    readCSV("NEWWORDS.xlsx", NEWWORDS);
-
-    
-    
-    
-    //STUDYLIST->CreateStudyList(NEWWORDS, WEAKWORDS, STRONGWORDS);
-    // runTest(STUDYLIST);
+    readCSV("NEWWORDS.csv", NEWWORDS);
+    readCSV("WEAKWORDS.csv", WEAKWORDS);
+    readCSV("MEDIUMWORDS.csv", MEDIUMWORDS);
+    readCSV("STRONGWORDS.csv", STRONGWORDS);
+    STUDYLIST->CreateStudyList(NEWWORDS, WEAKWORDS, MEDIUMWORDS, STRONGWORDS, NUMNEWWORDS, NUMWEAKWORDS, NUMMEDIUMWORDS, NUMSTRONGWORDS);
+    runQuiz(STUDYLIST);
+    writeCSV("NEWWORDS.csv", NEWWORDS);
+    writeCSV("WEAKWORDS.csv", WEAKWORDS);
+    writeCSV("MEDIUMWORDS.csv", MEDIUMWORDS);
+    writeCSV("STRONGWORDS.csv", STRONGWORDS);
 }

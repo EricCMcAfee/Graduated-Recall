@@ -1,3 +1,4 @@
+#pragma once
 using namespace std;
 
 struct VocabWord
@@ -20,6 +21,8 @@ public:
 
     VocabWord *GetHead();
 
+    VocabWord *GetTail();
+
     VocabWord *InitWord(string english, string german);
 
     void Append(VocabWord *toAppend);
@@ -30,7 +33,7 @@ public:
 
     void JoinLists(VocabList *toJoin);
 
-    void CreateStudyList (VocabList * newWords, VocabList* weakWords, VocabList *strongWords);
+    void CreateStudyList (VocabList * newWords, VocabList* weakWords, VocabList *mediumWords, VocabList *strongWords, int numNewWords, int numWeakWords, int numMediumWords, int numStrongWords);
 
 private:
     VocabWord *head;

@@ -40,6 +40,11 @@ VocabWord *VocabList::GetHead()
     return head;
 }
 
+VocabWord *VocabList::GetTail()
+{
+    return tail;
+}
+
 VocabWord *VocabList::InitWord(string english, string german)
 {
     VocabWord *word = new VocabWord();
@@ -88,12 +93,12 @@ VocabList *VocabList::SplitAt(int count)
 {
 
     VocabList *firstHalf = new VocabList();
-    if (head != NULL)
+    if (head != nullptr)
     {
 
         VocabWord *cursor = head;
         firstHalf->head = head;
-        for (int i = 0; i < count - 1 && cursor != nullptr; i++)
+        for (int i = 0; i < count - 1 && cursor->next != nullptr; i++)
         {
             cursor = cursor->next;
         }
@@ -125,14 +130,17 @@ void VocabList::JoinLists(VocabList *toJoin)
     }
 }
 
-void VocabList::CreateStudyList(VocabList *newWords, VocabList *weakWords, VocabList *strongWords)
+void VocabList::CreateStudyList(VocabList *newWords, VocabList *weakWords, VocabList *mediumWords, VocabList *strongWords, int numNewWords, int numWeakWords, int numMediumWords, int numStrongWords)
 {
-
-    this->JoinLists(newWords);
-
-    VocabList *listcursor = weakWords->SplitAt(weakWords->Size() / 2);
+    VocabList *listcursor = newWords->SplitAt(numNewWords);
     this->JoinLists(listcursor);
 
-    listcursor = strongWords->SplitAt(strongWords->Size() / 4);
+    listcursor = weakWords->SplitAt(numWeakWords);
+    this->JoinLists(listcursor);
+
+    listcursor = mediumWords->SplitAt(numMediumWords);
+    this->JoinLists(listcursor);
+
+    listcursor = strongWords->SplitAt(numStrongWords);
     this->JoinLists(listcursor);
 }
