@@ -92,21 +92,26 @@ void VocabList::Remove(VocabWord *toRemove)
 VocabList *VocabList::SplitAt(int count)
 {
 
-    VocabList *firstHalf = new VocabList();
     if (head != nullptr)
     {
 
+        VocabList *firstHalf = new VocabList();
         VocabWord *cursor = head;
         firstHalf->head = head;
         for (int i = 0; i < count - 1 && cursor->next != nullptr; i++)
         {
+
             cursor = cursor->next;
         }
         firstHalf->tail = cursor;
         head = cursor->next;
         firstHalf->tail->next = nullptr;
+        return firstHalf;
     }
-    return firstHalf;
+    else
+    {
+        return nullptr;
+    }
 }
 
 void VocabList::JoinLists(VocabList *toJoin)
@@ -136,11 +141,20 @@ void VocabList::CreateStudyList(VocabList *newWords, VocabList *weakWords, Vocab
     this->JoinLists(listcursor);
 
     listcursor = weakWords->SplitAt(numWeakWords);
-    this->JoinLists(listcursor);
+    if (listcursor != nullptr)
+    {
+        this->JoinLists(listcursor);
+    }
 
     listcursor = mediumWords->SplitAt(numMediumWords);
-    this->JoinLists(listcursor);
+    if (listcursor != nullptr)
+    {
+        this->JoinLists(listcursor);
+    }
 
     listcursor = strongWords->SplitAt(numStrongWords);
-    this->JoinLists(listcursor);
+    if (listcursor != nullptr)
+    {
+        this->JoinLists(listcursor);
+    }
 }

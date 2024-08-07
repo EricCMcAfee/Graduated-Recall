@@ -10,7 +10,7 @@ using namespace std;
 // global list for imported words
 VocabList *NEWWORDS = new VocabList();
 
-//global lists for previously studied and sorted words
+// global lists for previously studied and sorted words
 VocabList *WEAKWORDS = new VocabList();
 VocabList *MEDIUMWORDS = new VocabList();
 VocabList *STRONGWORDS = new VocabList();
@@ -19,12 +19,29 @@ VocabList *STRONGWORDS = new VocabList();
 VocabList *STUDYLIST = new VocabList();
 
 // global ints to determine how many words will be pulled from each bucket. Will eventually be implemented to be configurable by user
-int NUMNEWWORDS = 10;
+int NUMNEWWORDS = 0;
 int NUMWEAKWORDS = 6;
 int NUMMEDIUMWORDS = 3;
 int NUMSTRONGWORDS = 1;
 
-// function for prompting a question
+// function to get integer input from user with error handling
+int getIntegerSelection()
+{
+    string userInput;
+    int inputToInt;
+    cin >> userInput;
+    try
+    {
+        inputToInt = stoi(userInput);
+    }
+    catch (invalid_argument userInput)
+    {
+        cout << "Please enter an appropriate selection..." << "\n";
+    }
+    return inputToInt;
+}
+
+// function for prompting a word from the study list
 void promptQuestion(VocabWord *word)
 {
     if (word == STUDYLIST->GetHead())
@@ -42,8 +59,11 @@ void promptQuestion(VocabWord *word)
     cin.clear();
     cout << "Correct answer: " << word->German << endl;
     cout << "Please enter 1 if you missed it, 2 if it took you a moment, and 3 if you know it well...";
-    int userConfidence;
-    cin >> userConfidence;
+    int userConfidence = 0;
+    while (userConfidence < 1 || userConfidence > 3)
+    {
+        userConfidence = getIntegerSelection();
+    }
     switch (userConfidence)
     {
     case 1:
@@ -56,8 +76,8 @@ void promptQuestion(VocabWord *word)
         STRONGWORDS->Append(word);
         break;
     }
-    cin.clear();
 }
+
 // function for running the quiz
 void runQuiz(VocabList *studyList)
 {
@@ -68,30 +88,21 @@ void runQuiz(VocabList *studyList)
         VocabWord *toPrompt = cursor;
         cursor = cursor->next;
         promptQuestion(toPrompt);
+        
     }
 }
 
-void handDrawLists(VocabList *&newWords, VocabList *&weakWords, VocabList *&strongWords)
+// function for introducing the application and gathering user input for configuration
+void runIntroduction()
 {
+    cout << "Hello and welcome to the Graduated Recall vocabulary application!" << "\n";
+    cout << "How many new words would you like to add to your study list today (The recommended default is 10)?" << "\n";
 
-    newWords = new VocabList();
-    newWords->Append(newWords->InitWord("one", "eins"));
-    newWords->Append(newWords->InitWord("two", "zwei"));
-    newWords->Append(newWords->InitWord("three", "drei"));
-    newWords->Append(newWords->InitWord("four", "vier"));
-    newWords->Append(newWords->InitWord("five", "funf"));
-
-    weakWords = new VocabList();
-    weakWords->Append(weakWords->InitWord("masculine definite article", "der"));
-    weakWords->Append(weakWords->InitWord("feminine definite article", "die"));
-    weakWords->Append(weakWords->InitWord("neuter definite article", "das"));
-
-    strongWords = new VocabList();
-    strongWords->Append(strongWords->InitWord("red", "rot"));
-    strongWords->Append(strongWords->InitWord("yellow", "gelb"));
-    strongWords->Append(strongWords->InitWord("blue", "blau"));
-    strongWords->Append(strongWords->InitWord("black", "schwarz"));
-    strongWords->Append(strongWords->InitWord("white", "weiss"));
+    while (NUMNEWWORDS < 1 || NUMNEWWORDS > 20)
+    {
+        cout << "Please enter a number between 1 and 20..." << "\n";
+        NUMNEWWORDS = getIntegerSelection();
+    }
 }
 
 int main()
@@ -100,6 +111,7 @@ int main()
     readCSV("WEAKWORDS.csv", WEAKWORDS);
     readCSV("MEDIUMWORDS.csv", MEDIUMWORDS);
     readCSV("STRONGWORDS.csv", STRONGWORDS);
+    runIntroduction();
     STUDYLIST->CreateStudyList(NEWWORDS, WEAKWORDS, MEDIUMWORDS, STRONGWORDS, NUMNEWWORDS, NUMWEAKWORDS, NUMMEDIUMWORDS, NUMSTRONGWORDS);
     runQuiz(STUDYLIST);
     writeCSV("NEWWORDS.csv", NEWWORDS);
