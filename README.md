@@ -56,6 +56,22 @@ Data Structure Review - An argument for the doubly linked list
 
     Architecture Diagram
 
+    <html>
+  <head>
+    <title>Center an Image using text align center</title>
+    <style>
+      .img-container {
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="img-container"> <!-- Block parent element -->
+      <img src = "https://github.com/EricCMcAfee/Graduated-Recall/blob/main/Documentation/Forgetting%20Curve.png" width = 600">
+    </div>
+  </body>
+</html>
+
 Executing Instructions
 
     - I compiled my program on a windows machine using the g++ compiler available through  the C/C++ extension in Visual Studio Code. 
