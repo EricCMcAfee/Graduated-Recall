@@ -9,7 +9,7 @@ Spaced repetition is a learning technique based on the principle that we need se
 
 
 <div class="img-container">
- <img src = "https://github.com/EricCMcAfee/Graduated-Recall/blob/main/Documentation/Forgetting%20Curve.png")>
+ <img src = "https://github.com/EricCMcAfee/Graduated-Recall/blob/main/Documentation/Forgetting%20Curve.png" width = 600">
 
 Project Overview - A simple application that simplifies vocabulary while saving trees!
 
