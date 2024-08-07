@@ -3,54 +3,55 @@ Final Project - Data Structures - CU Boulder - Summer 2024
 
 Project Motivation and Background Information - Language learning and how to remember it all
 
-For my project, I have designed an English/German vocabulary quiz application. I have been learning German for 2+ years and can speak conversationally today, though my vocabulary is limited. While aural recognition, syntax, and grammar are generally the more challenging conceptual hurdles, vocabulary remains one of the greatest challenges in true language learning mastery due to its sheer size. While "fluency" is not a concrete definition and many argue over the number of words needed to qualify it, most estimates agree that 10,000 words is a solid benchmark for "near-native" speech. The problem here becomes fairly obvious… Vocabulary focused apps like Duolingo might introduce 5 - 10 words daily, meaning you will have to keep that streak up for roughly 2.5 - 3 years! This of course assumes 100% retention and does not consider the other elements of language learning mentioned previously.
+I've been learning German for over two years now and can hold a conversation, though my vocabulary is still growing. While understanding spoken German, syntax, and grammar can be challenging, vocabulary often proves to be one of the biggest hurdles in achieving true language mastery due to its vastness. Although there’s no universal definition of "fluency" and debate exists over the exact number of words needed to achieve it, most estimates suggest that around 10,000 words are necessary for "near-native" proficiency. The challenge becomes apparent when considering that vocabulary-focused apps like Duolingo might only introduce 5 to 10 new words each day, which means maintaining that pace for approximately 2.5 to 3 years to reach this goal. This estimation assumes perfect retention and doesn’t account for other aspects of language learning.
 
-Spaced repetition is a learning system that posits our need for multiple exposures to new material before committing that material to long term memory (see the graph below). Graduated Recall is a specific implementation of this learning system that comes from the Pimsleur Language Learning Method. I personally stated my German learning journey with Pimsleur and I am a constant advocate of its efficacy. The name also more clearly outlines the concept, which is that these multiple exposures should be spaced further and further apart as we become more familiar with the material.
-
+Spaced repetition is a learning technique based on the principle that we need several exposures to new information before it becomes entrenched in long-term memory (see the graph below - credit Wikipedia). Graduated Recall is a specific application of this approach, developed through the Pimsleur Language Learning Method. I began my German studies with Pimsleur and strongly support its effectiveness. The name "Graduated Recall" aptly captures the idea that, as we become more familiar with the material, the intervals between review sessions should gradually lengthen.
 
 Project Overview - A simple application that simplifies vocabulary while saving trees!
 
-To aid in my vocabulary studies and save many, many index cards, I have built a program to quiz a given list of German vocabulary words that can be imported by saving as "NEWWORDS.xlsx" in the "VocabLists" folder of the project. No need to worry about system differences in file path as I have controlled for that by writing the file path at run time. As long as the user saves a two column csv (English to German) to the aforementioned file name in the project, it should run!
+To support my vocabulary studies and reduce the need for countless index cards, I developed a program that quizzes you on a list of German (or any foreign language) vocabulary words. To use it, simply import a CSV file by saving it as "NEWWORDS.xlsx" in the "VocabLists" folder of the project. I’ve handled file path differences across systems, so you don’t need to worry about that—just make sure your CSV file is saved with two columns (English and German) and the specified file name. Note: Be sure there is no whitespace at the top of your CSV file!
 
 The basic outline of program execution is as follows:
 
-    - An algorithm generates a list of words to study from several other lists corresponding to the users familiarity with the word.
-    - The main quiz loop then runs and displays the words in this study list and their translations, one at a time, prompting the user to sort each by how confident they are in the answer. 
-    - Each word is appended back to its newly selected confidence level which places it at the end (or bottom) of the list so it will be encountered only after less recently seen words.
-    - Each time the user restarts the application, their previous sorting will affect the generation of their new study list.
-
-At a high level, the goal is to cycle through several words over multiple uses, displaying weaker words more often than strong words as prescribed by the graduated recall methodology.
+    - Currently, all user input and program output are handled through the terminal, though I plan to add more modern and visually appealing UI elements in the future.
+    - The user is prompted to specify the number of new words they want to add to their study rotation.
+    - An algorithm then creates a study list from these new words, along with words from several other lists based on the user’s familiarity with previously studied vocabulary.
+    - The main quiz loop displays the words from this study list and their translations one at a time, asking the user to rate their confidence in each answer.
+    - Each word is then moved to the end of its selected confidence level category, ensuring it is reviewed again only after less recently encountered words (utilizing a FIFO approach).
+    - When the user restarts the application, their previous responses influence the creation of the new study list, allowing for continuous progression through their entire vocabulary.
 
 Data Structure Review - An argument for the doubly linked list
 
-This project leverages 5 doubly linked list in C++ which I named "VocabList" for clarity. The class contains two pointer variables to the head and tail of the list, a host of member functions to perform both essential list operations as well as application specific functions, and the definition for the node struct, which contains and English word (string), its German translation (string), and  pointers to both the next and previous node in the list.
+This project uses five doubly linked lists in C++, which I’ve named "VocabList" for clarity. The class includes two pointer variables for the head and tail of the list, along with a set of member functions for performing both fundamental list operations and application-specific tasks. Additionally, the class defines a node structure that contains an English word (string), its German translation (string), and pointers to both the next and previous nodes in the list.
 
 List Details:
 
-    - The first 3 are buckets for different levels of familiarity with a word (weak, medium, and strong). As a user is tested on a word, they are also asked to sort that word into one of these buckets. Each of these lists also has a respective csv to allow the user to continue working through a set of words and save their progress overall multiple different executions of the application.
-    - The 4th list is generated from a "NEWWORDS" csv. This is how vocabulary is loaded into the application on first use, and how a user configurable number of new words can be added to the study bank each time. The list is manipulated and overwritten to the csv as with the other buckets so that duplicates are never introduced. This is where the real value in the application shines as a user can simply add a large list of new words one time and continue using the application until all of the words have been sorted into the "strong" bucket.
-    - The 5th list does not have a backing csv and is used to pool a combination of words from each familiarity bucket. This list is what the user will be tested on as it is traversed, with each word (list node) being sorted back to the user selected bucket during execution.
+    - The first three lists categorize words by levels of familiarity: weak, medium, and strong. As users are tested on each word, they are prompted to sort the word into one of these categories. Each of these lists overwrites its respective csv file after program exeuction, allowing users to track their progress and continue from where they left off across different sessions of the application.
+    - The fourth list is populated from a "NEWWORDS" CSV file. This list serves as the initial source for loading vocabulary into the application and allows users to add a configurable number of new words to their study bank each time. This list is updated and saved back to the CSV to prevent duplicates, offering significant value as users can input a large set of new words at once and continue working through them until all words are sorted into the "strong" bucket.
+    - The fifth list does not have a backing CSV file. It serves as a pool that combines words from all familiarity buckets. This is the list used during the quiz execution, where words are reviewed, and each word is sorted back into the user-selected bucket during the process.
 
 I chose the doubly linked list for several reasons:
 
-    - Firstly, it was covered in our textbook material and I found it more intuitive and flexible than the singly linked list. I feel this is well worth the cost of 1 pointer variable on each node (at least in the scope of the amount of data I expect here).
-    - Secondly, in thinking about the design of the project, I imagined the user may want to cycle back through the list if they skipped ahead too fast or wanted to edit their confidence level and a previous word. While these are future state items for my project, the "previous" node pointer will be extremely useful for this functionality.
-    - Lastly, linked lists are all about pointers. I wanted more practice with them and the challenges of removing them from one list without breaking a currently executing loop or creating circular reference. I believe a vector would have been a sensible alternative.
+    - First, the concept was covered in our textbook, and I found the doubly linked list to be more intuitive and flexible than the singly linked list. The trade-off of having one additional pointer per node seems worthwhile given the expected volume of data in this project.
+    - Second, considering the project’s design, I anticipated that users might want to revisit or adjust their confidence levels for previously reviewed words. Although these features are planned for future updates, the "previous" node pointer will be crucial for implementing such functionality effectively.
+    - Lastly, linked lists revolve around pointers, and I wanted to gain more experience with them, particularly the challenges of removing nodes without disrupting an active loop or creating circular references. While a vector could have been a viable alternative, working with linked lists provides valuable practice with pointer management.
 
 For specific function descriptions, please review the .h files.
+
+Architecture Diagram
 
 Executing Instructions
 
     - I compiled my program on a windows machine using the g++ compiler available through  the C/C++ extension in Visual Studio Code. 
     - To test, run on VSC with the same extension enabled.
     - Either use the prepackaged list of a few vocab words or build your own csv, dropping it in the "VocabLists" folder and saving as NEWWORDS.csv
-
-Architecture Diagram
-
-    - TBC
+    - Simply follow the prompts in the terminal! You can review the updated csv files to see where your progress is sorted.
 
 Links
 
     - https://en.wikipedia.org/wiki/Spaced_repetition
     - https://www.pimsleur.com/
+
+Future State Items
+- WIP
 
