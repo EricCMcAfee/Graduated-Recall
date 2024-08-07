@@ -7,7 +7,7 @@ I've been learning German for over two years now and can hold a conversation, th
 
 Spaced repetition is a learning technique based on the principle that we need several exposures to new information before it becomes entrenched in long-term memory (see the graph below - credit Wikipedia). Graduated Recall is a specific application of this approach, developed through the Pimsleur Language Learning Method. I began my German studies with Pimsleur and strongly support its effectiveness. The name "Graduated Recall" aptly captures the idea that, as we become more familiar with the material, the intervals between review sessions should gradually lengthen.
 
-     ![alt text] <img src = "https://github.com/EricCMcAfee/Graduated-Recall/blob/main/Documentation/Forgetting%20Curve.png" width = 600">
+     ![alt text] <img src = "(https://github.com/EricCMcAfee/Graduated-Recall/blob/main/Documentation/Forgetting%20Curve.png" width = 600")>
 
 Project Overview - A simple application that simplifies vocabulary while saving trees!
 
@@ -42,7 +42,7 @@ Data Structure Review - An argument for the doubly linked list
 
     Architecture Diagram
 
-      ![alt text] <img src = "https://github.com/EricCMcAfee/Graduated-Recall/blob/main/Documentation/Graduated%20Recall%20Data%20Architecture.png" width = 600">
+      ![alt text] <img src = ("https://github.com/EricCMcAfee/Graduated-Recall/blob/main/Documentation/Graduated%20Recall%20Data%20Architecture.png" width = 600")>
 
 Executing Instructions
 
