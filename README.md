@@ -7,22 +7,8 @@ I've been learning German for over two years now and can hold a conversation, th
 
 Spaced repetition is a learning technique based on the principle that we need several exposures to new information before it becomes entrenched in long-term memory (see the graph below - credit Wikipedia). Graduated Recall is a specific application of this approach, developed through the Pimsleur Language Learning Method. I began my German studies with Pimsleur and strongly support its effectiveness. The name "Graduated Recall" aptly captures the idea that, as we become more familiar with the material, the intervals between review sessions should gradually lengthen.
 
-<html>
- <head>
-  <style>
- .img-container{
- text-align: center;
- }
-<div class="img-container">
-   </style>
- </head>
-  <body>
-    <div class="img-container">
       <img src = "https://github.com/EricCMcAfee/Graduated-Recall/blob/main/Documentation/Forgetting%20Curve.png" width = 600">
-    </div>
-  </body>
-</html>
- 
+
 Project Overview - A simple application that simplifies vocabulary while saving trees!
 
     To support my vocabulary studies and reduce the need for countless index cards, I developed a program that quizzes you on a list of German (or any foreign language) vocabulary words. To use it, simply import a CSV file by saving it as "NEWWORDS.xlsx" in the "VocabLists" folder of the project. I’ve handled file path differences across systems, so you don’t need to worry about that—just make sure your CSV file is saved with two columns (English and German) and the specified file name. Note: Be sure there is no whitespace at the top of your CSV file!
@@ -56,21 +42,7 @@ Data Structure Review - An argument for the doubly linked list
 
     Architecture Diagram
 
-    <html>
-  <head>
-    <title>Center an Image using text align center</title>
-    <style>
-      .img-container {
-        text-align: center;
-      }
-    </style>
-  </head>
-  <body>
-    <div class="img-container"> <!-- Block parent element -->
-      <img src = "https://github.com/EricCMcAfee/Graduated-Recall/blob/main/Documentation/Forgetting%20Curve.png" width = 600">
-    </div>
-  </body>
-</html>
+      <img src = "https://github.com/EricCMcAfee/Graduated-Recall/blob/main/Documentation/Graduated%20Recall%20Data%20Architecture.png" width = 600">
 
 Executing Instructions
 
