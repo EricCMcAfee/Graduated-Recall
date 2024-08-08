@@ -7,7 +7,7 @@
 
 using namespace std;
 
-// global list for imported words
+// global list used for imported words
 VocabList *NEWWORDS = new VocabList();
 
 // global lists for previously studied and sorted words
@@ -41,7 +41,7 @@ int getIntegerSelection()
     return inputToInt;
 }
 
-// function for prompting a word from the study list
+// prompts the user for each word in the study list
 void promptQuestion(VocabWord *word)
 {
     if (word == STUDYLIST->GetHead())
@@ -78,7 +78,7 @@ void promptQuestion(VocabWord *word)
     }
 }
 
-// function for running the quiz
+// main quiz loop
 void runQuiz(VocabList *studyList)
 {
     VocabWord *cursor = studyList->GetHead();
@@ -92,7 +92,8 @@ void runQuiz(VocabList *studyList)
     }
 }
 
-// function for introducing the application and gathering user input for configuration
+// introductory text. also prompts user for number of new words to be added to the study list.
+
 void runIntroduction()
 {
     cout << "Hello and welcome to the Graduated Recall vocabulary application!" << "\n";

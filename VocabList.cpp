@@ -8,6 +8,7 @@ VocabList::VocabList()
     head = nullptr;
     tail = nullptr;
 }
+
 void VocabList::Print()
 {
     if (head != NULL)
@@ -20,6 +21,7 @@ void VocabList::Print()
         }
     }
 }
+
 int VocabList::Size()
 {
     int size = 0;
@@ -65,9 +67,11 @@ void VocabList::Append(VocabWord *toAppend)
         tail->next = toAppend;
         toAppend->previous = tail;
         tail = toAppend;
+        // see the Note above this function's declaration
         tail->next = nullptr;
     }
 }
+
 void VocabList::Remove(VocabWord *toRemove)
 {
     VocabWord *sucNode = toRemove->next;
@@ -88,7 +92,9 @@ void VocabList::Remove(VocabWord *toRemove)
     {
         tail = predNode;
     }
+    delete toRemove;
 }
+
 VocabList *VocabList::SplitAt(int count)
 {
 
@@ -103,9 +109,15 @@ VocabList *VocabList::SplitAt(int count)
 
             cursor = cursor->next;
         }
+
         firstHalf->tail = cursor;
         head = cursor->next;
         firstHalf->tail->next = nullptr;
+        if (head != nullptr)
+        {
+            head->previous = nullptr;
+        }
+
         return firstHalf;
     }
     else
@@ -130,8 +142,7 @@ void VocabList::JoinLists(VocabList *toJoin)
             this->tail = toJoin->tail;
             this->tail->next = nullptr;
         }
-        toJoin->head = nullptr;
-        toJoin->head = nullptr;
+        delete toJoin;
     }
 }
 
